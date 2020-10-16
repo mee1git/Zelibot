@@ -15,7 +15,6 @@ Bot.remove_command(zeli_bot, 'help')
 
 post_id = 765207549187325963;
 
-
 @zeli_bot.event
 async def on_ready():
     print('Ок')
@@ -24,17 +23,6 @@ async def on_ready():
 @zeli_bot.event
 async def on_command_error(ctx, error):
     pass
-
-@zeli_bot.event
-async def on_raw_reaction_add(payload: discord.RawReactionActionEvent):
-    if not payload.message_id == 765207549187325963:
-        return
-    if not payload.emoji.name == "💩":
-        return
-    if member := payload.member:
-        await member.add_roles(member.guild.get_role(765189723769143377))
-
-
 
 @Bot.command(zeli_bot)
 async def hello(ctx):
