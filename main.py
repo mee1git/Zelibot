@@ -194,3 +194,5 @@ async def del_lupa_error(ctx, error):
 
 
 zeli_bot.run(os.environ['TOKEN'])
+
+# webhook added
