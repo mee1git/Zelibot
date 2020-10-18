@@ -13,7 +13,6 @@ zeli_bot = Bot(command_prefix=prefix)
 
 Bot.remove_command(zeli_bot, 'help')
 
-post_id = 765207549187325963;
 
 @zeli_bot.event
 async def on_ready():
