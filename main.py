@@ -23,12 +23,12 @@ async def on_ready():
 async def on_command_error(ctx, error):
     pass
 
-@Bot.command(zeli_bot)
+@Bot.command(zeli_bot, aliases=['привет'])
 async def hello(ctx):
     author = ctx.message.author
     await ctx.send(f"{author.mention} да-да, Хеллоу, блять... Нахуй иди!")
 
-@Bot.command(zeli_bot)
+@Bot.command(zeli_bot, aliases=['сделать_Лупой'])
 @commands.has_permissions(administrator=True)
 async def set_Lupa(ctx, member: discord.Member):
     zelibobka_role = discord.utils.get(ctx.message.guild.roles, name='Zelibobka')
@@ -37,7 +37,7 @@ async def set_Lupa(ctx, member: discord.Member):
     await member.add_roles(lupa_role)
     await ctx.send(f"{member.mention} стал Лупой :C")
 
-@Bot.command(zeli_bot)
+@Bot.command(zeli_bot, aliases=['сделать_зелибобкой'])
 @commands.has_permissions(administrator=True)
 async def set_zelibobka(ctx, member: discord.Member):
     zelibobka_role = discord.utils.get(ctx.message.guild.roles, name='Zelibobka')
@@ -46,35 +46,35 @@ async def set_zelibobka(ctx, member: discord.Member):
     await member.add_roles(zelibobka_role)
     await ctx.send(f"{member.mention} стал зелибобкой :)")
 
-@Bot.command(zeli_bot)
+@Bot.command(zeli_bot, aliases=['сделать_лупой'])
 @commands.has_role(764468531206422538)
 async def set_lupa(ctx, member: discord.Member):
     lupa_role = discord.utils.get(ctx.message.guild.roles, name='Лупа')
     await member.add_roles(lupa_role)
     await ctx.send(f"{member.mention}, {ctx.author.mention} сделал вас Лупой :Э")
 
-@Bot.command(zeli_bot)
+@Bot.command(zeli_bot, aliases=['больше_не_лупа'])
 @commands.has_role(764467400300429312)
 async def del_lupa(ctx, member: discord.Member):
     lupa_role = discord.utils.get(ctx.message.guild.roles, name='Лупа')
     await member.remove_roles(lupa_role)
     await ctx.send(f"{member.mention}, {ctx.author.mention} забрал у вас роль Лупы :C")
 
-@Bot.command(zeli_bot)
+@Bot.command(zeli_bot, aliases=['сделать_бот_инвайтером'])
 @commands.has_permissions(administrator=True)
 async def set_bot_inviter(ctx, member: discord.Member):
     bot_inviter_role = discord.utils.get(ctx.message.guild.roles, name='bot_inviter')
     await member.add_roles(bot_inviter_role)
     await ctx.send(f"{member.mention} стал бот_инвайтером, Аеееее, САСНЫЙ!!!")
 
-@Bot.command(zeli_bot)
+@Bot.command(zeli_bot, aliases=['больше_не_бот_инвайтер'])
 @commands.has_permissions(administrator=True)
 async def del_bot_inviter(ctx, member: discord.Member):
     bot_inviter_role = discord.utils.get(ctx.message.guild.roles, name='bot_inviter')
     await member.remove_roles(bot_inviter_role)
     await ctx.send(f"{member.mention} перестал быть бот_инвайтером :ССССССССС")
 
-@Bot.command(zeli_bot)
+@Bot.command(zeli_bot, aliases=['подключить'])
 @commands.has_role(764864128383975437)
 async def join(ctx):
     global voice
@@ -86,7 +86,7 @@ async def join(ctx):
         voice = await channel.connect()
         await ctx.send(f'Зелибот присоединился к каналу: {channel}')
 
-@Bot.command(zeli_bot)
+@Bot.command(zeli_bot, aliases=['кикнуть'])
 @commands.has_role(764864128383975437)
 async def leave(ctx):
     channel = ctx.message.author.voice.channel
@@ -97,7 +97,7 @@ async def leave(ctx):
     else:
         voice = await channel.disconnect()
 
-@Bot.command(zeli_bot)
+@Bot.command(zeli_bot, aliases=['русская_рулетка'])
 async def RR(ctx):
     await ctx.send(f'{ctx.author.mention} Крутим барабан...')
     time.sleep(5)
@@ -108,52 +108,66 @@ async def RR(ctx):
         await ctx.send(f'{ctx.author.mention}, ну ничего, как-нибудь, в другой раз сходишь нахуй...')
 
 
-@Bot.command(zeli_bot)
+@Bot.command(zeli_bot, aliases=['отчистить'])
 async def clear(ctx, amount=100):
     await ctx.channel.purge(limit=amount+1)
 
-@Bot.command(zeli_bot)
+@Bot.command(zeli_bot, aliases=['ПАМАГИТЕ'])
 async def help(ctx):
     emb = discord.Embed(title='Список команд Зелибота(Non-admin):', colour=0x2fff00, )
-    emb.add_field(name=f'{prefix}help', value='Выводит список команд Зелибота в личные сообщения.', inline=False)
-    emb.add_field(name=f'{prefix}hello', value='Зелибот поприветствует вас.', inline=False)
-    emb.add_field(name=f'{prefix}clear [Кол-во сообщений]', value='Зелибот удалит 100 сообщений/[Кол-во сообщений]', inline=False)
-    emb.add_field(name=f'{prefix}join', value='Пригласить Зелибота в голосовой чат. (Нужно: быть в голосовом чате; иметь роль bot_inviter)', inline=False)
-    emb.add_field(name=f'{prefix}leave', value='Выгнать Зелибота из голосового чата. (Нужно: быть в голосовом чате; иметь роль bot_inviter)', inline=False)
-    emb.add_field(name=f'{prefix}set_lupa [@Пользователь]',
+    emb.add_field(name=f'{prefix}help(ПАМАГИТЕ)', value='Выводит список команд Зелибота в личные сообщения.', inline=False)
+    emb.add_field(name=f'{prefix}hello(привет)', value='Зелибот поприветствует вас.', inline=False)
+    emb.add_field(name=f'{prefix}clear(отчистить) [Кол-во сообщений]', value='Зелибот удалит 100 сообщений/[Кол-во сообщений]', inline=False)
+    emb.add_field(name=f'{prefix}join(подключить)', value='Пригласить Зелибота в голосовой чат. (Нужно: быть в голосовом чате; иметь роль bot_inviter)', inline=False)
+    emb.add_field(name=f'{prefix}leave(кикнуть)', value='Выгнать Зелибота из голосового чата. (Нужно: быть в голосовом чате; иметь роль bot_inviter)', inline=False)
+    emb.add_field(name=f'{prefix}set_lupa(сделать_лупой) [@Пользователь]',
                   value='Вы сделаете [@Пользователя] лупой. (Нужно иметь роль Лупа)', inline=False)
-    emb.add_field(name=f'{prefix}del_lupa [@Пользователь]', value='вы заберёте роль Лупа у [@Пользователя]. (Нужно иметь роль Zelibobka)',
+    emb.add_field(name=f'{prefix}del_lupa(больше_не_лупа) [@Пользователь]', value='вы заберёте роль Лупа у [@Пользователя]. (Нужно иметь роль Zelibobka)',
                   inline=False)
-    emb.add_field(name=f'{prefix}RR', value='Русская рулетка, шанс 1 к 6 пойти нахуй', inline=False)
+    emb.add_field(name=f'{prefix}RR(русская_рулетка)', value='Русская рулетка, шанс 1 к 6 пойти нахуй', inline=False)
     emb1 = discord.Embed(title='Список команд Зелибота(admin):', colour=0x2fff00)
-    emb1.add_field(name=f'{prefix}help_in', value='Выводит список команд Зелибота в данный чат', inline=False)
-    emb1.add_field(name=f'{prefix}set_Lupa [@Пользователь]', value='[@Пользователь] станет лупой.', inline=False)
-    emb1.add_field(name=f'{prefix}set_zelibobka [@Пользователь]', value='[@Пользователь] станет зелибобкой', inline=False)
-    emb1.add_field(name=f'{prefix}set_bot_inviter [@Пользователь]', value='[@Пользователь] станет бот_инвайтером',
+    emb1.add_field(name=f'{prefix}help_in(ПАМАГИТЕ_здесь)', value='Выводит список команд Зелибота в данный чат', inline=False)
+    emb1.add_field(name=f'{prefix}set_Lupa(сделать_Лупой) [@Пользователь]', value='[@Пользователь] станет лупой.', inline=False)
+    emb1.add_field(name=f'{prefix}set_zelibobka(сделать_зелибобкой) [@Пользователь]', value='[@Пользователь] станет зелибобкой', inline=False)
+    emb1.add_field(name=f'{prefix}set_bot_inviter(сделать_бот_инвайтером) [@Пользователь]', value='[@Пользователь] станет бот_инвайтером',
                    inline=False)
-    emb1.add_field(name=f'{prefix}del_bot_inviter [@Пользователь]', value='[@Пользователь] перестанет быть бот_инвайтером',
+    emb1.add_field(name=f'{prefix}del_bot_inviter(больше_не_бот_инвайтер) [@Пользователь]', value='[@Пользователь] перестанет быть бот_инвайтером',
                    inline=False)
     await ctx.message.author.send(embed=emb)
     await ctx.message.author.send(embed=emb1)
-@Bot.command(zeli_bot)
+@Bot.command(zeli_bot, aliases=['ПАМАГИТЕ_здесь'])
 @commands.has_permissions(administrator=True)
 async def help_in(ctx):
     emb = discord.Embed(title='Список команд Зелибота(Non-admin):', colour=0x2fff00, )
-    emb.add_field(name=f'{prefix}help', value='Выводит список команд Зелибота в личные сообщения', inline=False)
-    emb.add_field(name=f'{prefix}hello', value='Зелибот поприветствует вас.', inline=False)
-    emb.add_field(name=f'{prefix}clear [Кол-во сообщений]', value='Зелибот удалит 100 сообщений/[Кол-во сообщений]', inline=False)
-    emb.add_field(name=f'{prefix}join', value='Пригласить Зелибота в голосовой чат. (Нужно: быть в голосовом чате; иметь роль bot_inviter)', inline=False)
-    emb.add_field(name=f'{prefix}leave', value='Выгнать Зелибота из голосового чата. (Нужно: быть в голосовом чате; иметь роль bot_inviter)', inline=False)
-    emb.add_field(name=f'{prefix}set_lupa [@Пользователь]', value='Вы сделаете [@Пользователя] лупой. (Нужно иметь роль Лупа)', inline=False)
-    emb.add_field(name=f'{prefix}del_lupa [@Пользователь]', value='вы заберёте роль Лупа у [@Пользователя]. (Нужно иметь роль Zelibobka)', inline=False)
-    emb.add_field(name=f'{prefix}RR', value='Русская рулетка, шанс 1 к 6 пойти нахуй', inline=False)
+    emb.add_field(name=f'{prefix}help(ПАМАГИТЕ)', value='Выводит список команд Зелибота в личные сообщения.',
+                  inline=False)
+    emb.add_field(name=f'{prefix}hello(привет)', value='Зелибот поприветствует вас.', inline=False)
+    emb.add_field(name=f'{prefix}clear(отчистить) [Кол-во сообщений]',
+                  value='Зелибот удалит 100 сообщений/[Кол-во сообщений]', inline=False)
+    emb.add_field(name=f'{prefix}join(подключить)',
+                  value='Пригласить Зелибота в голосовой чат. (Нужно: быть в голосовом чате; иметь роль bot_inviter)',
+                  inline=False)
+    emb.add_field(name=f'{prefix}leave(кикнуть)',
+                  value='Выгнать Зелибота из голосового чата. (Нужно: быть в голосовом чате; иметь роль bot_inviter)',
+                  inline=False)
+    emb.add_field(name=f'{prefix}set_lupa(сделать_лупой) [@Пользователь]',
+                  value='Вы сделаете [@Пользователя] лупой. (Нужно иметь роль Лупа)', inline=False)
+    emb.add_field(name=f'{prefix}del_lupa(больше_не_лупа) [@Пользователь]',
+                  value='вы заберёте роль Лупа у [@Пользователя]. (Нужно иметь роль Zelibobka)',
+                  inline=False)
+    emb.add_field(name=f'{prefix}RR(русская_рулетка)', value='Русская рулетка, шанс 1 к 6 пойти нахуй', inline=False)
     emb1 = discord.Embed(title='Список команд Зелибота(admin):', colour=0x2fff00)
-    emb1.add_field(name=f'{prefix}help_in', value='Выводит список команд Зелибота в данный чат', inline=False)
-    emb1.add_field(name=f'{prefix}set_Lupa [@Пользователь]', value='[@Пользователь] станет лупой.', inline=False)
-    emb1.add_field(name=f'{prefix}set_zelibobka [@Пользователь]', value='[@Пользователь] станет зелибобкой', inline=False)
-    emb1.add_field(name=f'{prefix}set_bot_inviter [@Пользователь]', value='[@Пользователь] станет бот_инвайтером',
+    emb1.add_field(name=f'{prefix}help_in(ПАМАГИТЕ_здесь)', value='Выводит список команд Зелибота в данный чат',
                    inline=False)
-    emb1.add_field(name=f'{prefix}del_bot_inviter [@Пользователь]', value='[@Пользователь] перестанет быть бот_инвайтером',
+    emb1.add_field(name=f'{prefix}set_Lupa(сделать_Лупой) [@Пользователь]', value='[@Пользователь] станет лупой.',
+                   inline=False)
+    emb1.add_field(name=f'{prefix}set_zelibobka(сделать_зелибобкой) [@Пользователь]',
+                   value='[@Пользователь] станет зелибобкой', inline=False)
+    emb1.add_field(name=f'{prefix}set_bot_inviter(сделать_бот_инвайтером) [@Пользователь]',
+                   value='[@Пользователь] станет бот_инвайтером',
+                   inline=False)
+    emb1.add_field(name=f'{prefix}del_bot_inviter(больше_не_бот_инвайтер) [@Пользователь]',
+                   value='[@Пользователь] перестанет быть бот_инвайтером',
                    inline=False)
     await ctx.send(embed=emb)
     await ctx.send(embed=emb1)
