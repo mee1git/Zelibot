@@ -1,11 +1,17 @@
 import os
+import time
+from random import randint
+
 import discord
 import discord.utils
-import time
 from discord.ext import commands
 from discord.ext.commands import Bot
 from discord.utils import get
-from random import randint
+
+import requests
+from PIL import Image, ImageFont, ImageDraw
+import io
+
 
 prefix = '!'
 
@@ -19,9 +25,9 @@ async def on_ready():
     print('Ок')
 
     await zeli_bot.change_presence(status=discord.Status.online, activity=discord.Game(" ЧСВшную сучку"))
-@zeli_bot.event
-async def on_command_error(ctx, error):
-    pass
+#@zeli_bot.event
+#async def on_command_error(ctx, error):
+#    pass
 
 @Bot.command(zeli_bot, aliases=['привет'])
 async def hello(ctx):
@@ -112,6 +118,50 @@ async def RR(ctx):
 async def clear(ctx, amount=100):
     await ctx.channel.purge(limit=amount+1)
 
+@Bot.command(zeli_bot, aliases=['карта'])
+async def get_card(ctx):
+    img = Image.new('RGBA', (400, 200), '#012136')
+    url = str(ctx.author.avatar_url)[:-10]
+
+    resp = requests.get(url, stream=True)
+    resp = Image.open(io.BytesIO(resp.content))
+    resp = resp.convert('RGBA')
+    resp = resp.resize((100, 100), Image.ANTIALIAS)
+
+    img.paste(resp, (15, 15, 115, 115))
+
+    idraw = ImageDraw.Draw(img)
+    name = ctx.author.name
+    mention = ctx.message.author.display_name
+    tag = ctx.author.discriminator
+    role = ctx.author.top_role.name
+
+    if role == 'Zeliboba':
+        col = '#46bf36'
+    elif role == 'Zelibobka':
+        col = '#78ff66'
+    elif role == 'Лупа':
+        col = '#d466ff'
+    elif role == 'Пупа':
+        col = '#ff6666'
+    else:
+        col = '#7cfce7'
+
+    headline = ImageFont.truetype('arial.ttf', size=20)
+    undertext = ImageFont.truetype('arial.ttf', size=15)
+    idraw.text((145, 15), 'Карта участника сервера', font=headline, fill=col)
+    idraw.text((145, 50), f'id: {ctx.author.id}', font=undertext, fill=col)
+    idraw.text((145, 70), f'Никнейм в discord: {name}#{tag}', font=undertext, fill=col)
+    idraw.text((145, 90), f'Никнейм на сервере: {mention}', font=undertext, fill=col)
+    idraw.text((145, 110), f'Роль: {role}', font=undertext, fill=col)
+    idraw.text((15, 180), f'Сервер: {ctx.message.guild.name}', font=undertext, fill=col)
+
+    img.save('user_card.png')
+
+    await ctx.send(file=discord.File(fp='user_card.png'))
+
+
+
 @Bot.command(zeli_bot, aliases=['ПАМАГИТЕ'])
 async def help(ctx):
     emb = discord.Embed(title='Список команд Зелибота(Non-admin):', colour=0x2fff00, )
@@ -125,6 +175,7 @@ async def help(ctx):
     emb.add_field(name=f'{prefix}del_lupa(больше_не_лупа) [@Пользователь]', value='вы заберёте роль Лупа у [@Пользователя]. (Нужно иметь роль Zelibobka)',
                   inline=False)
     emb.add_field(name=f'{prefix}RR(русская_рулетка)', value='Русская рулетка, шанс 1 к 6 пойти нахуй', inline=False)
+    emb.add_field(name=f'{prefix}get_card(карта)', value='Выдаёт карту пользователя серевера, ей можно флексить где угодно.', inline=False)
     emb1 = discord.Embed(title='Список команд Зелибота(admin):', colour=0x2fff00)
     emb1.add_field(name=f'{prefix}help_in(ПАМАГИТЕ_здесь)', value='Выводит список команд Зелибота в данный чат', inline=False)
     emb1.add_field(name=f'{prefix}set_Lupa(сделать_Лупой) [@Пользователь]', value='[@Пользователь] станет лупой.', inline=False)
@@ -156,6 +207,8 @@ async def help_in(ctx):
                   value='вы заберёте роль Лупа у [@Пользователя]. (Нужно иметь роль Zelibobka)',
                   inline=False)
     emb.add_field(name=f'{prefix}RR(русская_рулетка)', value='Русская рулетка, шанс 1 к 6 пойти нахуй', inline=False)
+    emb.add_field(name=f'{prefix}get_card(карта)',
+                  value='Выдаёт карту пользователя серевера, ей можно флексить где угодно.', inline=False)
     emb1 = discord.Embed(title='Список команд Зелибота(admin):', colour=0x2fff00)
     emb1.add_field(name=f'{prefix}help_in(ПАМАГИТЕ_здесь)', value='Выводит список команд Зелибота в данный чат',
                    inline=False)
