@@ -121,12 +121,17 @@ async def clear(ctx, amount=100):
 @Bot.command(zeli_bot, aliases=['карта'])
 async def get_card(ctx):
     img = Image.new('RGBA', (400, 200), '#012136')
-    url = str(ctx.author.avatar_url)[:-10]
+    try:
+        url = str(ctx.author.avatar_url)[:-10]
 
-    resp = requests.get(url, stream=True)
-    resp = Image.open(io.BytesIO(resp.content))
+        resp = requests.get(url, stream=True)
+        resp = Image.open(io.BytesIO(resp.content))
+    except:
+        resp = Image.open(io.BytesIO('cards/st.jpg'))
+
     resp = resp.convert('RGBA')
     resp = resp.resize((100, 100), Image.ANTIALIAS)
+
 
     img.paste(resp, (15, 15, 115, 115))
 
