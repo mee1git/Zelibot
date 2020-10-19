@@ -127,7 +127,7 @@ async def get_card(ctx):
         resp = requests.get(url, stream=True)
         resp = Image.open(io.BytesIO(resp.content))
     except:
-        resp = Image.open(io.BytesIO('cards/st.jpg'))
+        resp = Image.open(io.BytesIO(requests.get('https://pp.userapi.com/lLGPiS2Mcnj9OeepZtKRuA5jUG5-3d1I36ow-g/qw5hym27TYE.jpg', stream=True)))
 
     resp = resp.convert('RGBA')
     resp = resp.resize((100, 100), Image.ANTIALIAS)
