@@ -25,9 +25,9 @@ async def on_ready():
     print('Ок')
 
     await zeli_bot.change_presence(status=discord.Status.online, activity=discord.Game(" ЧСВшную сучку"))
-#@zeli_bot.event
-#async def on_command_error(ctx, error):
-#    pass
+@zeli_bot.event
+async def on_command_error(ctx, error):
+    pass
 
 @Bot.command(zeli_bot, aliases=['привет'])
 async def hello(ctx):
@@ -156,9 +156,9 @@ async def get_card(ctx):
     idraw.text((145, 110), f'Роль: {role}', font=undertext, fill=col)
     idraw.text((15, 180), f'Сервер: {ctx.message.guild.name}', font=undertext, fill=col)
 
-    img.save('user_card.png')
+    img.save('cards/user_card.png')
 
-    await ctx.send(file=discord.File(fp='user_card.png'))
+    await ctx.send(file=discord.File(fp='cards/user_card.png'))
 
 
 
