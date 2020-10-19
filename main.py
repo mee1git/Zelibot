@@ -147,8 +147,8 @@ async def get_card(ctx):
     else:
         col = '#7cfce7'
 
-    headline = ImageFont.truetype('arial.ttf', size=20)
-    undertext = ImageFont.truetype('arial.ttf', size=15)
+    headline = ImageFont.truetype('fonts/3.otf', size=20)
+    undertext = ImageFont.truetype('fonts/2.ttf', size=15)
     idraw.text((145, 15), 'Карта участника сервера', font=headline, fill=col)
     idraw.text((145, 50), f'id: {ctx.author.id}', font=undertext, fill=col)
     idraw.text((145, 70), f'Никнейм в discord: {name}#{tag}', font=undertext, fill=col)
