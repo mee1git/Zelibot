@@ -12,6 +12,8 @@ import requests
 from PIL import Image, ImageFont, ImageDraw
 import io
 
+import youtube_dl
+
 
 prefix = '!'
 
@@ -25,6 +27,7 @@ async def on_ready():
     print('Ок')
 
     await zeli_bot.change_presence(status=discord.Status.online, activity=discord.Game(" ЧСВшную сучку"))
+
 @zeli_bot.event
 async def on_command_error(ctx, error):
     pass
@@ -102,6 +105,52 @@ async def leave(ctx):
         await voice.disconnect()
     else:
         voice = await channel.disconnect()
+
+@Bot.command(zeli_bot, aliases=['включить_музыку', 'вкл_м'])
+async def play(ctx, url: str):
+    song_there = os.path.isfile("song.mp3")
+    try:
+        if song_there:
+            os.remove("song.mp3")
+            print("song removed")
+    except PermissionError:
+        print('it\'s playing')
+        await ctx.send('Музыка ещё играет, подождите.')
+        return
+
+    await ctx.send('Музыка загружается, ожидайте :)')
+
+    voice = get(zeli_bot.voice_clients, guild=ctx.guild)
+
+    ydl_opts = {
+        'format': 'bestaudio/best',
+        'postprocessors': [
+            {
+                'key': 'FFmpegExtractAudio',
+                'preferredcodec': 'mp3',
+                'preferredquality': '192'
+            }
+        ]
+    }
+
+    with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+        print('downloading')
+        ydl.download([url])
+
+    for file in os.listdir('./'):
+        if file.endswith('.mp3'):
+            name = file
+            print(f'renamed file: {file}')
+            os.rename(file, 'song.mp3')
+
+    voice.play(discord.FFmpegPCMAudio('song.mp3'), after=lambda e: print(f'finish playing {name}'))
+    voice.source = discord.PCMVolumeTransformer(voice.source)
+    voice.source.volume = 0.07
+
+    nname = name.rsplit('-', 2)
+    await ctx.send(f'Играет: {nname[0]} {nname[1]}')
+    print(f'playing: {nname[0]}')
+
 
 @Bot.command(zeli_bot, aliases=['русская_рулетка'])
 async def RR(ctx):
