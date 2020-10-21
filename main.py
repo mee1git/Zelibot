@@ -108,6 +108,8 @@ async def leave(ctx):
 
 @Bot.command(zeli_bot, aliases=['включить_музыку', 'вкл_м'])
 async def play(ctx, url: str):
+    if not discord.opus.is_loaded():
+        discord.opus.load_opus('libopus.so')
     song_there = os.path.isfile("song.mp3")
     try:
         if song_there:
