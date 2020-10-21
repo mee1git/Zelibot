@@ -28,9 +28,9 @@ async def on_ready():
 
     await zeli_bot.change_presence(status=discord.Status.online, activity=discord.Game(" ЧСВшную сучку"))
 
-#@zeli_bot.event
-#async def on_command_error(ctx, error):
-#    pass
+@zeli_bot.event
+async def on_command_error(ctx, error):
+    pass
 
 @Bot.command(zeli_bot, aliases=['привет'])
 async def hello(ctx):
