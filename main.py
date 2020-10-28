@@ -108,8 +108,8 @@ async def leave(ctx):
 
 @Bot.command(zeli_bot, aliases=['включить_музыку', 'вкл_м'])
 async def play(ctx, url: str):
-    if not discord.opus.is_loaded():
-        discord.opus.load_opus('libopus.so')
+    #if not discord.opus.is_loaded():
+    #    discord.opus.load_opus('libopus.so')
     song_there = os.path.isfile("song.mp3")
     try:
         if song_there:
@@ -182,11 +182,8 @@ async def get_card(ctx):
 
     resp = resp.convert('RGBA')
     resp = resp.resize((100, 100), Image.ANTIALIAS)
-
-
-    img.paste(resp, (15, 15, 115, 115))
-
     idraw = ImageDraw.Draw(img)
+
     name = ctx.author.name
     mention = ctx.message.author.display_name
     tag = ctx.author.discriminator
@@ -202,6 +199,10 @@ async def get_card(ctx):
         col = '#ff6666'
     else:
         col = '#7cfce7'
+
+    idraw.rectangle(((13, 13), (116, 116)), fill=col)
+
+    img.paste(resp, (15, 15, 115, 115))
 
     headline = ImageFont.truetype('fonts/3.otf', size=20)
     undertext = ImageFont.truetype('fonts/2.ttf', size=15)
@@ -303,5 +304,6 @@ async def del_lupa_error(ctx, error):
 
 
 zeli_bot.run(os.environ['TOKEN'])
+
 
 # webhook added
